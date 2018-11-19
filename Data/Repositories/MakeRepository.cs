@@ -6,12 +6,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using Data.Entities;
+using System.Linq.Expressions;
+using System.Linq;
 
 namespace Data.Repositories
 {
-    class MakeRepository<TEntity> : IMakeRepository<TEntity>
+    class MakeRepository : IMakeRepository
     {
         ProjectDbContext context;
+
+        private readonly IQueryable<VehicleMakeEntity> source;
 
         public MakeRepository(ProjectDbContext context)
         {
@@ -34,6 +38,11 @@ namespace Data.Repositories
         {
             context.VehicleMake.Update(entity);
             context.SaveChanges();
+        }
+
+        public IEnumerable<VehicleMakeEntity> SelectListMake(int index, int count, Expression<Func<VehicleMakeEntity, int>> orderLambda)
+        {
+            return source.Skip(index * count).Take(count).OrderBy(orderLambda);
         }
 
         public void Dispose()

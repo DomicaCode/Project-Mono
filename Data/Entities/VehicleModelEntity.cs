@@ -13,5 +13,7 @@ namespace Data.Entities
         public string Name { get; set; }
 
         public string Abrv { get; set; }
+
+        public VehicleMakeEntity Make { get; set; }
     }
 }
