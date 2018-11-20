@@ -9,15 +9,18 @@ using System.Text;
 
 namespace Data.Repositories
 {
-    class ModelRepository : IModelRepository
+    public class ModelRepository : IModelRepository
     {
         ProjectDbContext context;
 
-        private readonly IQueryable<VehicleModelEntity> source;
+        public ModelRepository Current { get; set; }
+
+        private readonly IQueryable<VehicleModelEntity> _source;
 
         public ModelRepository(ProjectDbContext context)
         {
             this.context = context;
+            _source = this.context.VehicleModel;
         }
 
         public void Delete(VehicleModelEntity entity)
@@ -40,7 +43,7 @@ namespace Data.Repositories
 
         public IEnumerable<VehicleModelEntity> SelectListModel(int index, int count, Expression<Func<VehicleModelEntity, int>> orderLambda)
         {
-            return source.Skip(index * count).Take(count).OrderBy(orderLambda);
+            return _source.Skip(index * count).Take(count).OrderBy(orderLambda);
         }
 
         public void Dispose()

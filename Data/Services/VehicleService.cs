@@ -19,11 +19,10 @@ namespace Data.Services
         private readonly IMakeRepository _makeRepository;
 
         private readonly IModelRepository _modelRepository;
-        private readonly ProjectDbContext _dbcontext;
 
 
 
-        public VehicleService(IMakeRepository makeRepository, IModelRepository modelRepository, IQueryable<VehicleMakeEntity> source)
+        public VehicleService(IMakeRepository makeRepository, IModelRepository modelRepository, ProjectDbContext context)
         {
             _makeRepository = makeRepository;
             _modelRepository = modelRepository;
@@ -41,69 +40,78 @@ namespace Data.Services
             return data;
         }
 
-        public void InsertMake(VehicleDto vehicleDto)
+        public void InsertMake(VehicleMakeEntity entity)
         {
+            /*
             // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleMakeEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleMakeEntity>(vehicleDto);
-
+            */
             _makeRepository.Insert(entity);
         }
 
-
-        public void InsertModel(VehicleDto vehicleDto)
+        public void InsertModel(VehicleModelEntity entity)
         {
+            /*
             // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleModelEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleModelEntity>(vehicleDto);
+            */
 
             _modelRepository.Insert(entity);
         }
 
-        public void DeleteMake(VehicleDto vehicleDto)
+        public void DeleteMake(VehicleMakeEntity entity)
         {
+            /*
             // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleMakeEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleMakeEntity>(vehicleDto);
-
+            */
             _makeRepository.Delete(entity);
         }
 
-        public void DeleteModel(VehicleDto vehicleDto)
+        public void DeleteModel(VehicleModelEntity entity)
         {
+            /*
             // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleModelEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleModelEntity>(vehicleDto);
+            */
 
             _modelRepository.Delete(entity);
         }
 
-        public void UpdateMake(VehicleDto vehicleDto)
+        public void UpdateMake(VehicleMakeEntity entity)
         {
+            /*
             // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleMakeEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleMakeEntity>(vehicleDto);
+            */
 
             _makeRepository.Update(entity);
         }
 
-        public void UpdateModel(VehicleDto vehicleDto)
+        public void UpdateModel(VehicleModelEntity entity)
         {
+            /*
             // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleModelEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleModelEntity>(vehicleDto);
+            */
 
             _modelRepository.Update(entity);
         }

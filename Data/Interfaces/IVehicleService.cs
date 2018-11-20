@@ -12,5 +12,14 @@ namespace Data.Interfaces
         IEnumerable<VehicleMakeEntity> GetMake(int index, int count, Expression<Func<VehicleMakeEntity, int>> orderLambda);
 
         IEnumerable<VehicleModelEntity> GetModel(int index, int count, Expression<Func<VehicleModelEntity, int>> orderLambda);
+
+        void InsertMake(VehicleMakeEntity entity);
+        void InsertModel(VehicleModelEntity entity);
+
+        void DeleteMake(VehicleMakeEntity entity);
+        void DeleteModel(VehicleModelEntity entity);
+
+        void UpdateMake(VehicleMakeEntity entity);
+        void UpdateModel(VehicleModelEntity entity);
     }
 }

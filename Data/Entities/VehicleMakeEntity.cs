@@ -12,6 +12,6 @@ namespace Data.Entities
 
         public string Abrv { get; set; }
 
-        public IEnumerable<VehicleModelEntity> Models { get; set; }
+        public List<VehicleModelEntity> Models { get; set; }
     }
 }

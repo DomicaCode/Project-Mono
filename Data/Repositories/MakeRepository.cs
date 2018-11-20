@@ -11,19 +11,23 @@ using System.Linq;
 
 namespace Data.Repositories
 {
-    class MakeRepository : IMakeRepository
+    public class MakeRepository : IMakeRepository
     {
         ProjectDbContext context;
 
-        private readonly IQueryable<VehicleMakeEntity> source;
+        public MakeRepository Current { get; set; }
+
+        private readonly IQueryable<VehicleMakeEntity> _source;
 
         public MakeRepository(ProjectDbContext context)
         {
             this.context = context;
+            _source = this.context.VehicleMake;
         }
 
         public void Delete(VehicleMakeEntity entity)
         {
+            context.VehicleMake.Attach(entity);
             context.VehicleMake.Remove(entity);
             context.SaveChanges();
         }
@@ -42,7 +46,7 @@ namespace Data.Repositories
 
         public IEnumerable<VehicleMakeEntity> SelectListMake(int index, int count, Expression<Func<VehicleMakeEntity, int>> orderLambda)
         {
-            return source.Skip(index * count).Take(count).OrderBy(orderLambda);
+            return _source.Skip(index * count).Take(count).OrderBy(orderLambda);
         }
 
         public void Dispose()
