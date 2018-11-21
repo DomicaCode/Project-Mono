@@ -15,5 +15,7 @@ namespace Data.Interfaces
         void Delete(VehicleMakeEntity entity);
 
         IEnumerable<VehicleMakeEntity> SelectListMake(int index, int count, Expression<Func<VehicleMakeEntity, int>> orderLambda);
+
+        void Details(VehicleMakeEntity entity);
     }
 }

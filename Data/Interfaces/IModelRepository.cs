@@ -15,5 +15,7 @@ namespace Data.Interfaces
         void Delete(VehicleModelEntity entity);
 
         IEnumerable<VehicleModelEntity> SelectListModel(int index, int count, Expression<Func<VehicleModelEntity, int>> orderLambda);
+
+        void Details(VehicleModelEntity entity);
     }
 }

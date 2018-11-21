@@ -50,5 +50,11 @@ namespace Data.Repositories
         {
             context.Dispose();
         }
+
+        public void Details(VehicleModelEntity entity)
+        {
+            context.VehicleModel.Find(entity);
+            context.SaveChanges();
+        }
     }
 }

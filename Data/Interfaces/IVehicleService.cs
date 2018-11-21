@@ -9,21 +9,21 @@ namespace Data.Interfaces
 {
     public interface IVehicleService
     {
-        IEnumerable<VehicleMakeEntity> GetMake(int index, int count, Expression<Func<VehicleMakeEntity, int>> orderLambda);
+        IEnumerable<VehicleDto> GetMake(int index, int count);
 
-        IEnumerable<VehicleModelEntity> GetModel(int index, int count, Expression<Func<VehicleModelEntity, int>> orderLambda);
+        IEnumerable<VehicleDto> GetModel(int index, int count);
 
-        void InsertMake(VehicleMakeEntity entity);
-        void InsertModel(VehicleModelEntity entity);
+        void InsertMake(VehicleDto entity);
+        void InsertModel(VehicleDto entity);
 
-        void DeleteMake(VehicleMakeEntity entity);
-        void DeleteModel(VehicleModelEntity entity);
+        void DeleteMake(VehicleDto entity);
+        void DeleteModel(VehicleDto entity);
 
-        void UpdateMake(VehicleMakeEntity entity);
-        void UpdateModel(VehicleModelEntity entity);
+        void UpdateMake(VehicleDto entity);
+        void UpdateModel(VehicleDto entity);
 
-        VehicleMakeEntity GetMakeById(int id);
-        VehicleModelEntity GetModelByMakeId(int id);
-        VehicleModelEntity GetModelById(int id);
+        VehicleDto GetMakeById(int id);
+        VehicleDto GetModelByMakeId(int id);
+        VehicleDto GetModelById(int id);
     }
 }

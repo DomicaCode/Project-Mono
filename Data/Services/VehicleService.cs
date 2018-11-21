@@ -31,107 +31,163 @@ namespace Data.Services
             _dbContext = context;
         }
 
-        public IEnumerable<VehicleMakeEntity> GetMake(int index, int count, Expression<Func<VehicleMakeEntity, int>> orderLambda)
+        public IEnumerable<VehicleDto> GetMake(int index, int count)
         {
-            var data = _makeRepository.SelectListMake(index, count, orderLambda);
-            return data;
-        }
+            var data = _makeRepository.SelectListMake(index, count, p => p.Id);
 
-        public IEnumerable<VehicleModelEntity> GetModel(int index, int count, Expression<Func<VehicleModelEntity, int>> orderLambda)
-        {
-            var data = _modelRepository.SelectListModel(index, count, orderLambda);
-            return data;
-        }
-
-        public void InsertMake(VehicleMakeEntity entity)
-        {
-            /*
-            // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleMakeEntity, VehicleDto>(); });
-            IMapper mapper = config.CreateMapper();
+            IMapper mapper = config.CreateMapper(); 
 
-            var entity = mapper.Map<VehicleDto, VehicleMakeEntity>(vehicleDto);
-            */
-            _makeRepository.Insert(entity);
+            var vehicleDto = mapper.Map<IEnumerable<VehicleMakeEntity>, IEnumerable<VehicleDto>>(data);
+
+            return vehicleDto;
         }
-
-        public void InsertModel(VehicleModelEntity entity)
+        
+        public IEnumerable<VehicleDto> GetModel(int index, int count)
         {
-            /*
-            // Ovaj automapper config treba abstractat
+            var data = _modelRepository.SelectListModel(index, count, p => p.Id);
+
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleModelEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
+            var vehicleDto = mapper.Map<IEnumerable<VehicleModelEntity>, IEnumerable<VehicleDto>>(data);
+
+            return vehicleDto;
+        }
+        
+        public void InsertMake(VehicleDto vehicleDto)
+        {
+            
+            // Ovaj automapper config treba abstractat
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleDto, VehicleMakeEntity>(); });
+            IMapper mapper = config.CreateMapper();
+
+            var entity = mapper.Map<VehicleDto, VehicleMakeEntity>(vehicleDto);
+            
+            _makeRepository.Insert(entity);
+        }
+
+        public void InsertModel(VehicleDto vehicleDto)
+        {
+            
+            // Ovaj automapper config treba abstractat
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleDto, VehicleModelEntity>(); });
+            IMapper mapper = config.CreateMapper();
+
             var entity = mapper.Map<VehicleDto, VehicleModelEntity>(vehicleDto);
-            */
+            
 
             _modelRepository.Insert(entity);
         }
 
-        public void DeleteMake(VehicleMakeEntity entity)
+        public void DeleteMake(VehicleDto vehicleDto)
         {
-            /*
+            
             // Ovaj automapper config treba abstractat
-            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleMakeEntity, VehicleDto>(); });
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleDto, VehicleMakeEntity>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleMakeEntity>(vehicleDto);
-            */
+            
             _makeRepository.Delete(entity);
         }
 
-        public void DeleteModel(VehicleModelEntity entity)
+        public void DeleteModel(VehicleDto vehicleDto)
         {
-            /*
+            
             // Ovaj automapper config treba abstractat
-            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleModelEntity, VehicleDto>(); });
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleDto, VehicleModelEntity>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleModelEntity>(vehicleDto);
-            */
+            
 
             _modelRepository.Delete(entity);
         }
 
-        public void UpdateMake(VehicleMakeEntity entity)
+        public void UpdateMake(VehicleDto vehicleDto)
         {
-            /*
+            
+            // Ovaj automapper config treba abstractat
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleDto, VehicleMakeEntity>(); });
+            IMapper mapper = config.CreateMapper();
+
+            var entity = mapper.Map<VehicleDto, VehicleMakeEntity>(vehicleDto);
+            
+
+            _makeRepository.Update(entity);
+        }
+
+        public void UpdateModel(VehicleDto vehicleDto)
+        {
+            
+            // Ovaj automapper config treba abstractat
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleDto, VehicleModelEntity>(); });
+            IMapper mapper = config.CreateMapper();
+
+            var entity = mapper.Map<VehicleDto, VehicleModelEntity>(vehicleDto);
+            
+
+            _modelRepository.Update(entity);
+        }
+
+        public void DetailsMake(VehicleDto vehicleDto)
+        {
             // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleMakeEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleMakeEntity>(vehicleDto);
-            */
 
-            _makeRepository.Update(entity);
+
+            _makeRepository.Details(entity);
         }
 
-        public void UpdateModel(VehicleModelEntity entity)
+        public void DetailsModel(VehicleDto vehicleDto)
         {
-            /*
-            // Ovaj automapper config treba abstractat
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleModelEntity, VehicleDto>(); });
             IMapper mapper = config.CreateMapper();
 
             var entity = mapper.Map<VehicleDto, VehicleModelEntity>(vehicleDto);
-            */
 
-            _modelRepository.Update(entity);
+
+            _modelRepository.Details(entity);
         }
 
-        public VehicleMakeEntity GetMakeById(int id)
+        public VehicleDto GetMakeById(int id)
         {
-            return _dbContext.VehicleMake.Where(x => x.Id == id).FirstOrDefault();
+            var entity = _dbContext.VehicleMake.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
+
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleMakeEntity, VehicleDto>(); });
+            IMapper mapper = config.CreateMapper();
+
+            var vehicleDto = mapper.Map<VehicleMakeEntity, VehicleDto>(entity);
+
+            return vehicleDto;
         }
 
-        public VehicleModelEntity GetModelByMakeId(int id)
+        public VehicleDto GetModelByMakeId(int id)
         {
-            return _dbContext.VehicleModel.Where(x => x.MakeId == id).FirstOrDefault();
+            var entity = _dbContext.VehicleModel.AsNoTracking().Where(x => x.MakeId == id).FirstOrDefault();
+
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleModelEntity, VehicleDto>(); });
+            IMapper mapper = config.CreateMapper();
+
+            var vehicleDto = mapper.Map<VehicleModelEntity, VehicleDto>(entity);
+
+            return vehicleDto;
         }
 
-        public VehicleModelEntity GetModelById(int id)
+        public VehicleDto GetModelById(int id)
         {
-            return _dbContext.VehicleModel.Where(x => x.Id == id).FirstOrDefault();
+            var entity = _dbContext.VehicleModel.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
+
+            var config = new MapperConfiguration(cfg => { cfg.CreateMap<VehicleModelEntity, VehicleDto>(); });
+            IMapper mapper = config.CreateMapper();
+
+            var vehicleDto = mapper.Map<VehicleModelEntity, VehicleDto>(entity);
+
+            return vehicleDto;
         }
     }
 }

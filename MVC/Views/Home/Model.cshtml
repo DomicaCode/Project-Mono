@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Data.Entities.VehicleModelEntity>
+﻿@model IEnumerable<Data.Entities.VehicleDto>
 
 @{
     ViewData["Title"] = "Model";
@@ -43,9 +43,13 @@
                 @Html.DisplayFor(modelItem => item.Abrv)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                <a asp-action="DeleteModel" asp-route-id="@item.Id" class="btn btn-danger" onclick="return confirm('Are you sure you wish to delete ?');">
+                <a asp-action="EditModel" asp-route-id="@item.Id" class="btn btn-default">
+                    <i class="glyphicon glyphicon-pencil"></i>  Edit
+                </a>
+                <a asp-action="DetailsModel" asp-route-id="@item.Id" class="btn btn-default">
+                    <i class="glyphicon glyphicon-th-list"></i>  Details
+                </a>
+                <a asp-action="DeleteModel" asp-route-id="@item.Id" class="btn btn-danger" onclick="return confirm('Jeste li sigurni da zelite obrisati ?');">
                     <i class="glyphicon glyphicon-trash"></i>  Delete
                 </a>
 

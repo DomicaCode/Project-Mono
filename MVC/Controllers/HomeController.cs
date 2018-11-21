@@ -46,17 +46,7 @@ namespace MVC.Controllers
         [HttpGet]
         public IActionResult Make()
         {
-            /*
-            ProjectDbContext db = new ProjectDbContext();
-
-            var test = db.VehicleMake;
-            foreach (VehicleMakeEntity p in test)
-            {
-                Console.WriteLine(p);
-            }
-            */
-
-            var data = _vehicleService.GetMake(0, 10, (p => p.Id));
+            var data = _vehicleService.GetMake(0, 10);
 
             return View(data);
         }
@@ -64,7 +54,7 @@ namespace MVC.Controllers
         [HttpGet]
         public IActionResult Model()
         {
-            var data = _vehicleService.GetModel(0, 10, (p => p.Id)).ToList();
+            var data = _vehicleService.GetModel(0, 10);
 
             return View(data);
         }
@@ -76,11 +66,11 @@ namespace MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateMake(VehicleMakeEntity vehicle)
+        public IActionResult CreateMake(VehicleDto vehicle)
         {
             _vehicleService.InsertMake(vehicle);
 
-            return View();
+            return RedirectToAction("Make");
         }
 
         [HttpGet]
@@ -88,12 +78,13 @@ namespace MVC.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public IActionResult CreateModel(VehicleModelEntity vehicle)
+        public IActionResult CreateModel(VehicleDto vehicle)
         {
             _vehicleService.InsertModel(vehicle);
 
-            return View();
+            return RedirectToAction("Model");
         }
 
         /*
@@ -110,31 +101,35 @@ namespace MVC.Controllers
         // a ne mozes obrisati u istoj metodi jer se tek izvrsi nakon sto sve prode
         public IActionResult DeleteMake(int id)
         {
-            VehicleModelEntity vehiclemodel = _vehicleService.GetModelByMakeId(id);
+            VehicleDto vehiclemodel = _vehicleService.GetModelByMakeId(id);
 
             if (vehiclemodel != null)
             {
                 _vehicleService.DeleteModel(vehiclemodel);
                 DeleteMakeModel(id);
             }
+            else
+            {
+                DeleteMakeModel(id);
+            }
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Make");
 
         }
 
         public void DeleteMakeModel(int id)
         {
-            VehicleMakeEntity vehicle = _vehicleService.GetMakeById(id);
+            VehicleDto vehicle = _vehicleService.GetMakeById(id);
             _vehicleService.DeleteMake(vehicle);
         }
 
         public IActionResult DeleteModel(int id)
         {
-            VehicleModelEntity vehiclemodel = _vehicleService.GetModelById(id);
+            VehicleDto vehiclemodel = _vehicleService.GetModelById(id);
             _vehicleService.DeleteModel(vehiclemodel);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Model");
 
         }
 
@@ -145,12 +140,37 @@ namespace MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditMake(int id, VehicleMakeEntity vehicle)
+        public IActionResult EditMake(int id, VehicleDto vehicle)
         {
-            vehicle = _vehicleService.GetMakeById(id);
+            //vehicle = _vehicleService.GetMakeById(id);
             _vehicleService.UpdateMake(vehicle);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Make");
+        }
+
+        [HttpGet]
+        public IActionResult EditModel(int id)
+        {
+            return View(_vehicleService.GetModelById(id));
+        }
+
+        [HttpPost]
+        public IActionResult EditModel(int id, VehicleDto vehicle)
+        {
+            //vehicle = _vehicleService.GetMakeById(id);
+            _vehicleService.UpdateModel(vehicle);
+
+            return RedirectToAction("Model");
+        }
+
+        public IActionResult DetailsMake(int id)
+        {
+            return View(_vehicleService.GetMakeById(id));
+        }
+
+        public IActionResult DetailsModel(int id)
+        {
+            return View(_vehicleService.GetModelById(id));
         }
 
         public IActionResult Privacy()

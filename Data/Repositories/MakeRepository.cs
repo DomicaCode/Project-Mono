@@ -27,7 +27,6 @@ namespace Data.Repositories
 
         public void Delete(VehicleMakeEntity entity)
         {
-            context.VehicleMake.Attach(entity);
             context.VehicleMake.Remove(entity);
             context.SaveChanges();
         }
@@ -41,6 +40,12 @@ namespace Data.Repositories
         public void Update(VehicleMakeEntity entity)
         {
             context.VehicleMake.Update(entity);
+            context.SaveChanges();
+        }
+
+        public void Details(VehicleMakeEntity entity)
+        {
+            context.VehicleMake.Find(entity);
             context.SaveChanges();
         }
 
