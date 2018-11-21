@@ -21,5 +21,9 @@ namespace Data.Interfaces
 
         void UpdateMake(VehicleMakeEntity entity);
         void UpdateModel(VehicleModelEntity entity);
+
+        VehicleMakeEntity GetMakeById(int id);
+        VehicleModelEntity GetModelByMakeId(int id);
+        VehicleModelEntity GetModelById(int id);
     }
 }

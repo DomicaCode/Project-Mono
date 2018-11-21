@@ -18,12 +18,9 @@ namespace MVC.Controllers
     public class HomeController : Controller
     {
         private readonly IVehicleService _vehicleService;
-        private readonly ProjectDbContext _dbContext;
 
-
-        public HomeController(IVehicleService vehicleService, ProjectDbContext dbContext)
+        public HomeController(IVehicleService vehicleService)
         {
-            _dbContext = dbContext;
             _vehicleService = vehicleService;
         }
 
@@ -113,9 +110,14 @@ namespace MVC.Controllers
         // a ne mozes obrisati u istoj metodi jer se tek izvrsi nakon sto sve prode
         public IActionResult DeleteMake(int id)
         {
-            VehicleModelEntity vehiclemodel = _dbContext.VehicleModel.Where(x => x.MakeId == id).FirstOrDefault();
-            _vehicleService.DeleteModel(vehiclemodel);
-            DeleteMakeModel(id);
+            VehicleModelEntity vehiclemodel = _vehicleService.GetModelByMakeId(id);
+
+            if (vehiclemodel != null)
+            {
+                _vehicleService.DeleteModel(vehiclemodel);
+                DeleteMakeModel(id);
+            }
+
 
             return RedirectToAction("Index");
 
@@ -123,29 +125,29 @@ namespace MVC.Controllers
 
         public void DeleteMakeModel(int id)
         {
-            VehicleMakeEntity vehicle = _dbContext.VehicleMake.Where(x => x.Id == id).FirstOrDefault();
+            VehicleMakeEntity vehicle = _vehicleService.GetMakeById(id);
             _vehicleService.DeleteMake(vehicle);
         }
 
         public IActionResult DeleteModel(int id)
         {
-            VehicleModelEntity vehiclemodel = _dbContext.VehicleModel.Where(x => x.Id == id).FirstOrDefault();
+            VehicleModelEntity vehiclemodel = _vehicleService.GetModelById(id);
             _vehicleService.DeleteModel(vehiclemodel);
 
             return RedirectToAction("Index");
 
         }
-        
+
         [HttpGet]
         public IActionResult EditMake(int id)
         {
-            return View(_dbContext.VehicleMake.Where(x => x.Id == id).FirstOrDefault());
+            return View(_vehicleService.GetMakeById(id));
         }
 
         [HttpPost]
         public IActionResult EditMake(int id, VehicleMakeEntity vehicle)
         {
-            vehicle = _dbContext.VehicleMake.Where(x => x.Id == id).FirstOrDefault();
+            vehicle = _vehicleService.GetMakeById(id);
             _vehicleService.UpdateMake(vehicle);
 
             return RedirectToAction("Index");

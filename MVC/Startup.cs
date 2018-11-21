@@ -69,7 +69,7 @@ namespace MVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id=UrlParameter.Optional}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

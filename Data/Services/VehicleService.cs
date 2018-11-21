@@ -20,12 +20,15 @@ namespace Data.Services
 
         private readonly IModelRepository _modelRepository;
 
+        private readonly ProjectDbContext _dbContext;
+
 
 
         public VehicleService(IMakeRepository makeRepository, IModelRepository modelRepository, ProjectDbContext context)
         {
             _makeRepository = makeRepository;
             _modelRepository = modelRepository;
+            _dbContext = context;
         }
 
         public IEnumerable<VehicleMakeEntity> GetMake(int index, int count, Expression<Func<VehicleMakeEntity, int>> orderLambda)
@@ -114,6 +117,21 @@ namespace Data.Services
             */
 
             _modelRepository.Update(entity);
+        }
+
+        public VehicleMakeEntity GetMakeById(int id)
+        {
+            return _dbContext.VehicleMake.Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public VehicleModelEntity GetModelByMakeId(int id)
+        {
+            return _dbContext.VehicleModel.Where(x => x.MakeId == id).FirstOrDefault();
+        }
+
+        public VehicleModelEntity GetModelById(int id)
+        {
+            return _dbContext.VehicleModel.Where(x => x.Id == id).FirstOrDefault();
         }
     }
 }
